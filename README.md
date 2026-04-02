@@ -129,7 +129,7 @@ frontend/src/
 
 If Email Cleaner saves you time, consider supporting it:
 
-[![Ko-fi](https://img.shields.io/badge/Support%20on-Ko--fi-FF5E5B?logo=ko-fi&logoColor=white)](https://ko-fi.com/YOUR_KOFI_USERNAME)
+[![Ko-fi](https://img.shields.io/badge/Support%20on-Ko--fi-FF5E5B?logo=ko-fi&logoColor=white)](https://ko-fi.com/diskava)
 
 ---
 
