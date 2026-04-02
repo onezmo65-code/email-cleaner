@@ -10,3 +10,5 @@ build/
 .DS_Store
 backend/credentials.json
 backend/token.json
+.vs/
+.claude/
