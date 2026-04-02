@@ -129,6 +129,7 @@ frontend/src/
 
 If Email Cleaner saves you time, consider supporting it:
 
+[![Download on Gumroad](https://img.shields.io/badge/Download-Gumroad-36a9ae?logo=gumroad&logoColor=white)](https://onezmo.gumroad.com/l/email-cleaner)
 [![Ko-fi](https://img.shields.io/badge/Support%20on-Ko--fi-FF5E5B?logo=ko-fi&logoColor=white)](https://ko-fi.com/diskava)
 
 ---
