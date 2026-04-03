@@ -25,53 +25,34 @@ Connect your accounts, scan thousands of emails, and delete spam senders in bulk
 
 ## Requirements
 
-- [Node.js 18+](https://nodejs.org)
-- A Yahoo or Gmail account
+- Windows 10 or later
+- [Node.js v20 LTS](https://nodejs.org/en/download) — free, one-time install
 
 ---
 
-## Quick Start
+## Setup (first time only)
 
 ### 1. Download
+On this page, click **Releases** → find the latest release → click **Source code (zip)** to download.
 
-Click **Releases** on the right → download `email-cleaner-v1.0.zip` → extract it anywhere.
+> Or direct link: [Download Email Cleaner v1.0](../../releases/latest)
 
-### 2. Install dependencies
+### 2. Extract
+Right-click the downloaded ZIP → **Extract All** → choose a folder (e.g. Desktop)
 
-Open a terminal in the extracted folder:
+### 3. Run SETUP.bat
+Open the extracted folder → double-click **SETUP.bat**
 
-```bash
-npm install
-cd backend && npm install
-cd ../frontend && npm install
-```
+- It will check if Node.js is installed — if not, it opens the download page for you
+- It installs everything automatically (takes 1–2 minutes)
+- When it says **SETUP COMPLETE** you are ready
 
-### 3. Configure
+### 4. Launch the app
+Double-click **START.bat** — your browser opens automatically at the app.
 
-```bash
-cp backend/.env.example backend/.env
-```
+> Every time you want to use Email Cleaner, just double-click **START.bat**
 
-Open `backend/.env` in any text editor. The defaults work for Yahoo. For Gmail, follow the OAuth setup instructions below.
-
-### 4. Start the app
-
-Open **two** terminals:
-
-**Terminal 1 — Backend:**
-```bash
-cd backend
-npm run dev
-```
-Wait for: `Server running on port 3001`
-
-**Terminal 2 — Frontend:**
-```bash
-cd frontend
-npm run dev
-```
-
-Then open **http://localhost:5173** in your browser.
+---
 
 ---
 
