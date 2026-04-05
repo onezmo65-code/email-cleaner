@@ -1,4 +1,7 @@
 @echo off
+:: Email Cleaner - First Time Setup
+:: Publisher: Originatti
+:: Version: 1.1
 setlocal enabledelayedexpansion
 title Email Cleaner - First Time Setup
 color 0A

@@ -1,0 +1,32 @@
+EMAIL CLEANER
+=============
+Publisher: Originatti
+Version: 1.1
+Release Date: April 2026
+
+Website: https://github.com/onezmo65-code/email-cleaner
+
+About Email Cleaner:
+Email Cleaner is a Windows desktop application for managing and
+cleaning your email inbox with powerful filtering and spam detection.
+
+Features:
+- Gmail integration with OAuth authentication
+- Real-time spam detection using DNSBL checking
+- Smart email filtering and organization
+- Email whitelist management
+- Local-first architecture with SQLite database
+- Built with React + TypeScript frontend
+- Node.js backend with Express API
+
+Requirements:
+- Windows 7 or later
+- Node.js v20 LTS or later
+- 100MB free disk space
+- Internet connection for Gmail sync and updates
+
+License: See README.md for license information
+Support: Contact Originatti for support
+
+For more information, visit:
+https://github.com/onezmo65-code/email-cleaner

@@ -1,4 +1,7 @@
 @echo off
+:: Email Cleaner - Application Launcher
+:: Publisher: Originatti
+:: Version: 1.1
 setlocal enabledelayedexpansion
 title Email Cleaner
 color 0A
