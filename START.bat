@@ -12,20 +12,31 @@ echo  ================================================
 echo.
 
 :: ── Check setup was run ───────────────────────────
-if not exist "%~dp0.setupdone" (
-    echo  ERROR: Setup has not been completed yet!
+if not exist "%~dp0backend\node_modules" (
+    echo  ERROR: Backend dependencies not installed!
     echo.
-    echo  Please follow these steps:
+    echo  Setup did not complete successfully.
     echo.
-    echo  1. Open the folder containing these files
-    echo  2. Double-click SETUP.bat
-    echo  3. Wait for setup to complete (2-5 minutes)
-    echo  4. Then come back and run START.bat
+    echo  Try this:
+    echo  1. Delete the backend\node_modules folder
+    echo  2. Run SETUP.bat again
+    echo  3. WAIT for "SETUP COMPLETE" message
+    echo  4. Then run START.bat
     echo.
-    echo  If you already ran SETUP.bat:
-    echo  - Make sure you waited for it to finish
-    echo  - Check that both backend and frontend installed
-    echo  - Try running SETUP.bat again
+    pause
+    exit /b 1
+)
+
+if not exist "%~dp0frontend\node_modules" (
+    echo  ERROR: Frontend dependencies not installed!
+    echo.
+    echo  Setup did not complete successfully.
+    echo.
+    echo  Try this:
+    echo  1. Delete the frontend\node_modules folder
+    echo  2. Run SETUP.bat again
+    echo  3. WAIT for "SETUP COMPLETE" message
+    echo  4. Then run START.bat
     echo.
     pause
     exit /b 1

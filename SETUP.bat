@@ -149,9 +149,6 @@ echo.
 echo  Build complete - OK
 echo.
 
-:: ── Create setup marker ──────────────────────────
-echo. > "%~dp0.setupdone"
-
 :: ── Done ──────────────────────────────────────────
 cls
 echo.
