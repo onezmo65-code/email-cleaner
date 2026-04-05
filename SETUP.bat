@@ -52,30 +52,42 @@ if not exist "%~dp0frontend" (
 
 :: ── Check Node.js ────────────────────────────────
 echo  [1/4] Checking Node.js...
-node --version >nul 2>&1
-if !errorlevel! neq 0 (
+for /f "tokens=*" %%v in ('node --version 2^>nul') do set "NODEVER=%%v"
+
+if "!NODEVER!"=="" (
     echo.
-    echo  ERROR: Node.js is not installed!
+    echo  WARNING: Node.js does not appear to be in your PATH
     echo.
-    echo  Solution:
-    echo  1. Go to https://nodejs.org/en/download
-    echo  2. Download the LTS version
-    echo  3. Run the installer (click Next through all steps)
-    echo  4. Close this window and run SETUP.bat again
+    echo  However, you might already have it installed.
     echo.
-    echo  Opening download page now...
-    start https://nodejs.org/en/download
-    pause
-    exit /b 1
+    echo  Options:
+    echo  1. If you have Node.js installed:
+    echo     - Close all command prompts
+    echo     - Restart your computer (to reload PATH)
+    echo     - Run SETUP.bat again
+    echo.
+    echo  2. If you don't have Node.js:
+    echo     - Go to https://nodejs.org/en/download
+    echo     - Download the LTS version
+    echo     - Run the installer with admin rights
+    echo     - Select "Add to PATH" during installation
+    echo.
+    echo  3. If this keeps happening:
+    echo     - Press 'C' to continue anyway (might work)
+    echo     - Press any other key to exit
+    echo.
+    choice /c C /n /t 10 /d C >nul
+    if !errorlevel! neq 1 (
+        exit /b 1
+    )
+    echo.
+    echo  Continuing setup (hoping Node.js works)...
+    echo.
+) else (
+    echo  Node.js !NODEVER! found - OK
+    echo.
 )
 
-:: Get Node version
-for /f "tokens=1 delims=." %%A in ('node -v') do (
-    set "NODEVER=%%A"
-)
-set "NODEVER=!NODEVER:v=!"
-echo  Node.js v!NODEVER! found - OK
-echo.
 
 :: ── Install backend dependencies ─────────────────
 echo  [2/4] Installing backend dependencies...
