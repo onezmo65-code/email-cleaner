@@ -35,7 +35,7 @@ Connect your accounts, scan thousands of emails, and delete spam senders in bulk
 ### 1. Download
 On this page, click **Releases** → find the latest release → click **Source code (zip)** to download.
 
-> Or direct link: [Download Email Cleaner v1.0](../../releases/latest)
+> Or direct link: [⬇ Download Email Cleaner v1.1](../../releases/latest)
 
 ### 2. Extract
 Right-click the downloaded ZIP → **Extract All** → choose a folder (e.g. Desktop)
