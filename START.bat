@@ -9,17 +9,20 @@ echo  ================================================
 echo.
 
 :: ── Check setup was run ───────────────────────────
-if not exist "%~dp0backend\node_modules" (
-    echo  Setup has not been run yet.
-    echo  Please double-click SETUP.bat first.
+if not exist "%~dp0.setupdone" (
+    echo  ERROR: Setup has not been completed yet!
     echo.
-    pause
-    exit /b 1
-)
-
-if not exist "%~dp0frontend\node_modules" (
-    echo  Frontend setup incomplete.
-    echo  Please double-click SETUP.bat first.
+    echo  Please follow these steps:
+    echo.
+    echo  1. Open the folder containing these files
+    echo  2. Double-click SETUP.bat
+    echo  3. Wait for setup to complete (2-5 minutes)
+    echo  4. Then come back and run START.bat
+    echo.
+    echo  If you already ran SETUP.bat:
+    echo  - Make sure you waited for it to finish
+    echo  - Check that both backend and frontend installed
+    echo  - Try running SETUP.bat again
     echo.
     pause
     exit /b 1
@@ -55,4 +58,5 @@ echo  TO STOP: Close the two black terminal windows
 echo           labeled "Backend" and "Frontend"
 echo.
 pause
+
 

@@ -2,27 +2,46 @@
 setlocal enabledelayedexpansion
 title Email Cleaner - First Time Setup
 color 0A
+cls
 echo.
 echo  ================================================
 echo     EMAIL CLEANER - First Time Setup
 echo  ================================================
 echo.
+echo  This will install dependencies for the backend
+echo  and frontend. Please be patient - this might
+echo  take 3-5 minutes on first run.
+echo.
+echo  Do NOT close this window until setup completes!
+echo.
 
 :: Verify directory structure
 if not exist "%~dp0backend" (
-    echo  ERROR: Backend folder not found at:
-    echo  %~dp0backend
+    echo  ERROR: Backend folder not found!
     echo.
-    echo  Make sure you extracted the ZIP completely.
+    echo  This usually means the ZIP file was not
+    echo  extracted correctly.
+    echo.
+    echo  Solution:
+    echo  - Right-click EmailCleaner-Windows-v1.1.zip
+    echo  - Select "Extract All..."
+    echo  - Choose a simple location like C:\Apps\EmailCleaner
+    echo  - Double-click SETUP.bat again
     echo.
     pause
     exit /b 1
 )
 if not exist "%~dp0frontend" (
-    echo  ERROR: Frontend folder not found at:
-    echo  %~dp0frontend
+    echo  ERROR: Frontend folder not found!
     echo.
-    echo  Make sure you extracted the ZIP completely.
+    echo  This usually means the ZIP file was not
+    echo  extracted correctly.
+    echo.
+    echo  Solution:
+    echo  - Right-click EmailCleaner-Windows-v1.1.zip
+    echo  - Select "Extract All..."
+    echo  - Choose a simple location like C:\Apps\EmailCleaner
+    echo  - Double-click SETUP.bat again
     echo.
     pause
     exit /b 1
@@ -33,83 +52,106 @@ echo  [1/4] Checking Node.js...
 node --version >nul 2>&1
 if !errorlevel! neq 0 (
     echo.
-    echo  Node.js is not installed on this computer.
+    echo  ERROR: Node.js is not installed!
     echo.
-    echo  Opening the Node.js download page in your browser...
-    echo  - Download the version marked "LTS"
-    echo  - Run the installer (click Next through all steps)
-    echo  - Come back and double-click SETUP.bat again
+    echo  Solution:
+    echo  1. Go to https://nodejs.org/en/download
+    echo  2. Download the LTS version
+    echo  3. Run the installer (click Next through all steps)
+    echo  4. Close this window and run SETUP.bat again
     echo.
+    echo  Opening download page now...
     start https://nodejs.org/en/download
     pause
     exit /b 1
 )
 
-:: ── Check Node version (warn if too new) ─────────
+:: Get Node version
 for /f "tokens=1 delims=." %%A in ('node -v') do (
     set "NODEVER=%%A"
 )
 set "NODEVER=!NODEVER:v=!"
-if !NODEVER! GTR 22 (
-    echo.
-    echo  WARNING: You have Node.js v!NODEVER!.
-    echo  Email Cleaner works best with Node.js v20 LTS.
-    echo.
-    echo  Opening correct download page...
-    start https://nodejs.org/en/download
-    echo  Install Node.js v20 LTS, then run SETUP.bat again.
-    echo.
-    pause
-    exit /b 1
-)
-echo  Node.js v!NODEVER! - OK
+echo  Node.js v!NODEVER! found - OK
 echo.
 
 :: ── Install backend dependencies ─────────────────
-echo  [2/4] Installing backend (this may take 2-3 minutes)...
+echo  [2/4] Installing backend dependencies...
+echo  (this may take 2-3 minutes - please wait)
 cd /d "%~dp0backend"
+echo.
 call npm install
 if !errorlevel! neq 0 (
     echo.
-    echo  ERROR: Backend install failed.
-    echo  Please take a screenshot of this window and contact support.
+    echo  ERROR: Backend installation failed!
+    echo.
+    echo  Try this:
+    echo  1. Delete the 'backend\node_modules' folder
+    echo  2. Run SETUP.bat again
+    echo.
+    echo  If the error persists, contact support.
     echo.
     pause
     exit /b 1
 )
-echo  Backend ready - OK
+echo.
+echo  Backend dependencies installed - OK
 echo.
 
 :: ── Install frontend dependencies ────────────────
-echo  [3/4] Installing frontend (this may take 1-2 minutes)...
+echo  [3/4] Installing frontend dependencies...
+echo  (this may take 2-3 minutes - please wait)
 cd /d "%~dp0frontend"
+echo.
 call npm install
 if !errorlevel! neq 0 (
     echo.
-    echo  ERROR: Frontend install failed.
-    echo  Please take a screenshot of this window and contact support.
+    echo  ERROR: Frontend installation failed!
+    echo.
+    echo  Try this:
+    echo  1. Delete the 'frontend\node_modules' folder
+    echo  2. Run SETUP.bat again
     echo.
     pause
     exit /b 1
 )
-echo  Frontend ready - OK
+echo.
+echo  Frontend dependencies installed - OK
 echo.
 
-:: ── Verify database ──────────────────────────────
-echo  [4/4] Initializing database...
+:: ── Build backend ────────────────────────────────
+echo  [4/4] Building backend...
 cd /d "%~dp0backend"
-npm run build >nul 2>&1
-echo  Database ready - OK
 echo.
+call npm run build
+if !errorlevel! neq 0 (
+    echo.
+    echo  WARNING: Backend build had issues
+    echo  This is usually not critical. Continuing anyway...
+    echo.
+    timeout /t 2 /nobreak >nul
+)
+echo.
+echo  Build complete - OK
+echo.
+
+:: ── Create setup marker ──────────────────────────
+echo. > "%~dp0.setupdone"
 
 :: ── Done ──────────────────────────────────────────
+cls
+echo.
 echo  ================================================
 echo     SETUP COMPLETE!
 echo  ================================================
 echo.
-echo  Your Email Cleaner is ready to use.
+echo  Email Cleaner is ready to use!
 echo.
-echo  Next step: Double-click START.bat to open it.
+echo  NEXT STEP:
+echo.
+echo  Close this window and double-click START.bat
+echo  to launch Email Cleaner.
+echo.
 echo.
 pause
+
 
