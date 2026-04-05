@@ -1,65 +1,84 @@
 @echo off
+setlocal enabledelayedexpansion
 title Creating Release ZIP...
-echo.
-echo Creating EmailCleaner-Windows-v1.1.zip ...
-echo.
-
-:: Use short path to avoid spaces problem
-set "ROOT=C:\Projects\EmailCleaner-src"
-set "OUT=C:\Projects\Email Cleaner\EmailCleaner-Windows-v1.1.zip"
-set "SRC=C:\Projects\Email Cleaner"
-
-:: Clean old build
-if exist "%ROOT%" rmdir /s /q "%ROOT%"
-mkdir "%ROOT%"
-
-:: Create exclude list for xcopy
-echo email-cleaner.db > "%TEMP%\xcopy-exclude.txt"
-echo email-cleaner.db-shm >> "%TEMP%\xcopy-exclude.txt"
-echo email-cleaner.db-wal >> "%TEMP%\xcopy-exclude.txt"
-echo credentials.json >> "%TEMP%\xcopy-exclude.txt"
-echo token.json >> "%TEMP%\xcopy-exclude.txt"
-echo .env >> "%TEMP%\xcopy-exclude.txt"
-
-:: Copy backend (no node_modules, no db)
-echo Copying backend...
-xcopy "%SRC%\backend" "%ROOT%\backend\" /E /I /Q /EXCLUDE:"%TEMP%\xcopy-exclude.txt"
-if exist "%ROOT%\backend\node_modules" rmdir /s /q "%ROOT%\backend\node_modules"
-
-:: Copy frontend (no node_modules)
-echo Copying frontend...
-xcopy "%SRC%\frontend" "%ROOT%\frontend\" /E /I /Q
-if exist "%ROOT%\frontend\node_modules" rmdir /s /q "%ROOT%\frontend\node_modules"
-
-:: Copy root files
-echo Copying setup files...
-copy "%SRC%\SETUP.bat"        "%ROOT%\SETUP.bat"
-copy "%SRC%\START.bat"        "%ROOT%\START.bat"
-copy "%SRC%\HOW-TO-START.txt" "%ROOT%\HOW-TO-START.txt"
-copy "%SRC%\OAUTH_SETUP.md"   "%ROOT%\OAUTH_SETUP.md"
-copy "%SRC%\package.json"     "%ROOT%\package.json"
-
-:: Delete old zip
-if exist "%OUT%" del "%OUT%"
-
-:: Zip the clean folder
-echo Compressing...
-powershell -NoProfile -ExecutionPolicy Bypass -Command "Compress-Archive -Path 'C:\Projects\EmailCleaner-src\*' -DestinationPath 'C:\Projects\Email Cleaner\EmailCleaner-Windows-v1.1.zip'"
-
-:: Cleanup
-rmdir /s /q "%ROOT%"
-del "%TEMP%\xcopy-exclude.txt"
-
+color 0A
 echo.
 echo ============================================
-echo  DONE: EmailCleaner-Windows-v1.1.zip ready
+echo  Creating EmailCleaner Release ZIP
 echo ============================================
 echo.
-echo Upload to GitHub:
-echo 1. Go to github.com/onezmo65-code/email-cleaner/releases
-echo 2. Click pencil on v1.1
-echo 3. Delete old EmailCleaner-Windows-v1.1.zip asset
-echo 4. Drag new ZIP into Assets
-echo 5. Click Update release
+
+set "ZIPNAME=EmailCleaner-Windows-v1.1.zip"
+
+powershell -NoProfile -Command "
+try {
+    \$tempdir = 'EmailCleaner-Temp'
+    \$zippath = '%ZIPNAME%'
+
+    # Cleanup old files
+    if (Test-Path \$zippath) { Remove-Item \$zippath }
+    if (Test-Path \$tempdir) { Remove-Item \$tempdir -Recurse -Force }
+
+    Write-Host 'Copying backend...'
+    New-Item -ItemType Directory \$tempdir -Force | Out-Null
+    Copy-Item 'backend' \"\$tempdir\\backend\" -Recurse -Force
+
+    Write-Host 'Copying frontend...'
+    Copy-Item 'frontend' \"\$tempdir\\frontend\" -Recurse -Force
+
+    Write-Host 'Copying setup files...'
+    'SETUP.bat','START.bat','HOW-TO-START.txt','OAUTH_SETUP.md','README.md','package.json' | % { Copy-Item \$_ \$tempdir -Force }
+
+    Write-Host 'Removing unnecessary files...'
+    Remove-Item -Path \"\$tempdir\\backend\\node_modules\" -Recurse -Force -ErrorAction SilentlyContinue
+    Remove-Item -Path \"\$tempdir\\backend\\dist\" -Recurse -Force -ErrorAction SilentlyContinue
+    Remove-Item -Path \"\$tempdir\\backend\\email-cleaner.db*\" -Force -ErrorAction SilentlyContinue
+    Remove-Item -Path \"\$tempdir\\backend\\.env\" -Force -ErrorAction SilentlyContinue
+    Remove-Item -Path \"\$tempdir\\frontend\\node_modules\" -Recurse -Force -ErrorAction SilentlyContinue
+    Remove-Item -Path \"\$tempdir\\frontend\\dist\" -Recurse -Force -ErrorAction SilentlyContinue
+
+    Write-Host 'Creating ZIP archive...'
+    Compress-Archive -Path \"\$tempdir/*\" -DestinationPath \$zippath -Force
+
+    \$size = (Get-Item \$zippath).Length
+    Write-Host ''
+    Write-Host '============================================' -ForegroundColor Green
+    Write-Host 'ZIP CREATED SUCCESSFULLY!' -ForegroundColor Green
+    Write-Host '============================================' -ForegroundColor Green
+    Write-Host \"Filename: \$zippath\"
+    Write-Host \"Size: \$('{0:N2}' -f (\$size/1MB)) MB\"
+    Write-Host ''
+    Write-Host 'Contents:'
+    Write-Host '  - backend/ (source code only, no node_modules)'
+    Write-Host '  - frontend/ (source code only, no node_modules)'
+    Write-Host '  - SETUP.bat, START.bat (user scripts)'
+    Write-Host '  - README.md, OAUTH_SETUP.md, HOW-TO-START.txt'
+    Write-Host ''
+
+    Remove-Item \$tempdir -Recurse -Force
+} catch {
+    Write-Host \"ERROR: \$_\" -ForegroundColor Red
+    exit 1
+}
+"
+
+if !errorlevel! neq 0 (
+    echo.
+    echo ERROR: ZIP creation failed
+    echo.
+    pause
+    exit /b 1
+)
+
+echo Ready to upload to GitHub Release:
+echo.
+echo 1. Go to: https://github.com/onezmo65-code/email-cleaner/releases
+echo 2. Click the pencil icon next to version v1.1
+echo 3. Delete old %ZIPNAME% from Assets section
+echo 4. Drag new %ZIPNAME% into Assets
+echo 5. Click "Update release"
 echo.
 pause
+
+
+
