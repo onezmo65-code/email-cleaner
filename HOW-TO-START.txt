@@ -1,0 +1,39 @@
+============================================
+  EMAIL CLEANER - Quick Start Guide
+============================================
+
+FIRST TIME SETUP (run once):
+------------------------------
+1. Double-click SETUP.bat
+   - It will check if Node.js is installed
+   - If not, it opens the download page for you
+     (download Node.js v20 LTS, run installer)
+   - Then double-click SETUP.bat again
+   - Wait for "SETUP COMPLETE"
+
+LAUNCH THE APP (every time):
+------------------------------
+2. Double-click START.bat
+   - Your browser opens automatically
+   - Go to Settings to connect Gmail or Yahoo
+
+CONNECT YAHOO MAIL:
+------------------------------
+- Go to Yahoo -> Account Security
+- Click "Generate app password"
+- Name it "Email Cleaner" -> click Generate
+- Copy the 16-character code
+- In Email Cleaner -> Settings -> Add Yahoo Account
+- Paste the code -> click Add
+
+CONNECT GMAIL:
+------------------------------
+- See OAUTH_SETUP.md for full Gmail instructions
+  (requires a free Google Cloud project)
+
+NEED HELP?
+------------------------------
+Full guide: https://github.com/onezmo65-code/email-cleaner
+Support: https://ko-fi.com/diskava
+
+============================================
