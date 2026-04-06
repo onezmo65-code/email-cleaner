@@ -3,7 +3,7 @@
 A local desktop web app to bulk-clean Yahoo and Gmail inboxes.
 Connect your accounts, scan thousands of emails, and delete spam senders in bulk — all from your browser, running privately on your own PC.
 
-![Email Cleaner screenshot](frontend/src/assets/hero.png)
+![Email Cleaner screenshot](frontend/src/assets/hero.webp)
 
 ---
 
