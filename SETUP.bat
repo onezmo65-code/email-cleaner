@@ -18,32 +18,37 @@ echo.
 echo  Do NOT close this window until setup completes!
 echo.
 
-:: Verify directory structure
-if not exist "%~dp0backend" (
+:: ── Ensure Node.js is findable regardless of PATH ─
+set "PATH=%ProgramFiles%\nodejs;%ProgramFiles(x86)%\nodejs;%LOCALAPPDATA%\Programs\nodejs;%APPDATA%\npm;%PATH%"
+
+:: ── Build exact paths from script location ────────
+set "ROOTDIR=%~dp0"
+if "!ROOTDIR:~-1!"=="\" set "ROOTDIR=!ROOTDIR:~0,-1!"
+set "BACKENDDIR=!ROOTDIR!\backend"
+set "FRONTENDDIR=!ROOTDIR!\frontend"
+
+:: ── Verify directory structure ────────────────────
+if not exist "!BACKENDDIR!" (
     echo  ERROR: Backend folder not found!
-    echo.
-    echo  This usually means the ZIP file was not
-    echo  extracted correctly.
+    echo  Expected: !BACKENDDIR!
     echo.
     echo  Solution:
     echo  - Right-click EmailCleaner-Windows-v1.1.zip
     echo  - Select "Extract All..."
-    echo  - Choose a simple location like C:\Apps\EmailCleaner
+    echo  - Choose a simple location like C:\EmailCleaner
     echo  - Double-click SETUP.bat again
     echo.
     pause
     exit /b 1
 )
-if not exist "%~dp0frontend" (
+if not exist "!FRONTENDDIR!" (
     echo  ERROR: Frontend folder not found!
-    echo.
-    echo  This usually means the ZIP file was not
-    echo  extracted correctly.
+    echo  Expected: !FRONTENDDIR!
     echo.
     echo  Solution:
     echo  - Right-click EmailCleaner-Windows-v1.1.zip
     echo  - Select "Extract All..."
-    echo  - Choose a simple location like C:\Apps\EmailCleaner
+    echo  - Choose a simple location like C:\EmailCleaner
     echo  - Double-click SETUP.bat again
     echo.
     pause
@@ -56,45 +61,25 @@ for /f "tokens=*" %%v in ('node --version 2^>nul') do set "NODEVER=%%v"
 
 if "!NODEVER!"=="" (
     echo.
-    echo  WARNING: Node.js does not appear to be in your PATH
+    echo  ERROR: Node.js not found.
     echo.
-    echo  However, you might already have it installed.
+    echo  Install Node.js v20 LTS then run SETUP.bat again:
+    echo  https://nodejs.org/dist/v20.19.1/node-v20.19.1-x64.msi
     echo.
-    echo  Options:
-    echo  1. If you have Node.js installed:
-    echo     - Close all command prompts
-    echo     - Restart your computer (to reload PATH)
-    echo     - Run SETUP.bat again
+    echo  During install: check "Add to PATH", then RESTART PC.
     echo.
-    echo  2. If you don't have Node.js:
-    echo     - Go to https://nodejs.org/en/download
-    echo     - Download the LTS version
-    echo     - Run the installer with admin rights
-    echo     - Select "Add to PATH" during installation
-    echo.
-    echo  3. If this keeps happening:
-    echo     - Press 'C' to continue anyway (might work)
-    echo     - Press any other key to exit
-    echo.
-    choice /c C /n /t 10 /d C >nul
-    if !errorlevel! neq 1 (
-        exit /b 1
-    )
-    echo.
-    echo  Continuing setup (hoping Node.js works)...
-    echo.
-) else (
-    echo  Node.js !NODEVER! found - OK
-    echo.
+    pause
+    exit /b 1
 )
 
+echo  Node.js !NODEVER! found - OK
+echo.
 
 :: ── Install backend dependencies ─────────────────
 echo  [2/4] Installing backend dependencies...
 echo  (this may take 2-3 minutes - please wait)
-cd /d "%~dp0backend"
 echo.
-call npm install
+call npm install --prefix "!BACKENDDIR!"
 if !errorlevel! neq 0 (
     echo.
     echo  ERROR: Backend installation failed!
@@ -102,8 +87,6 @@ if !errorlevel! neq 0 (
     echo  Try this:
     echo  1. Delete the 'backend\node_modules' folder
     echo  2. Run SETUP.bat again
-    echo.
-    echo  If the error persists, contact support.
     echo.
     pause
     exit /b 1
@@ -115,9 +98,8 @@ echo.
 :: ── Install frontend dependencies ────────────────
 echo  [3/4] Installing frontend dependencies...
 echo  (this may take 2-3 minutes - please wait)
-cd /d "%~dp0frontend"
 echo.
-call npm install
+call npm install --prefix "!FRONTENDDIR!"
 if !errorlevel! neq 0 (
     echo.
     echo  ERROR: Frontend installation failed!
@@ -135,9 +117,10 @@ echo.
 
 :: ── Build backend ────────────────────────────────
 echo  [4/4] Building backend...
-cd /d "%~dp0backend"
 echo.
+pushd "!BACKENDDIR!"
 call npm run build
+popd
 if !errorlevel! neq 0 (
     echo.
     echo  WARNING: Backend build had issues
@@ -165,5 +148,3 @@ echo  to launch Email Cleaner.
 echo.
 echo.
 pause
-
-

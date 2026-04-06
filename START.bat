@@ -11,6 +11,9 @@ echo     EMAIL CLEANER - Starting...
 echo  ================================================
 echo.
 
+:: ── Ensure Node.js is findable regardless of PATH ─
+set "PATH=%ProgramFiles%\nodejs;%ProgramFiles(x86)%\nodejs;%LOCALAPPDATA%\Programs\nodejs;%APPDATA%\npm;%PATH%"
+
 :: ── Check setup was run ───────────────────────────
 if not exist "%~dp0backend\node_modules" (
     echo  ERROR: Backend dependencies not installed!

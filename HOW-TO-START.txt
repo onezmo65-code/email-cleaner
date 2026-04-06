@@ -1,39 +1,70 @@
 ============================================
   EMAIL CLEANER - Quick Start Guide
+  Version 1.1 | Publisher: Originatti
+============================================
+
+============================================
+  WINDOWS
 ============================================
 
 FIRST TIME SETUP (run once):
 ------------------------------
 1. Double-click SETUP.bat
-   - It will check if Node.js is installed
-   - If not, it opens the download page for you
-     (download Node.js v20 LTS, run installer)
-   - Then double-click SETUP.bat again
+   - It checks if Node.js is installed
+   - If not, follow the on-screen instructions
+     to download Node.js v20 LTS
    - Wait for "SETUP COMPLETE"
 
 LAUNCH THE APP (every time):
 ------------------------------
 2. Double-click START.bat
-   - Your browser opens automatically
+   - Your browser opens automatically to the app
    - Go to Settings to connect Gmail or Yahoo
 
-CONNECT YAHOO MAIL:
-------------------------------
-- Go to Yahoo -> Account Security
-- Click "Generate app password"
-- Name it "Email Cleaner" -> click Generate
-- Copy the 16-character code
-- In Email Cleaner -> Settings -> Add Yahoo Account
-- Paste the code -> click Add
 
-CONNECT GMAIL:
+============================================
+  UBUNTU / LINUX / macOS
+============================================
+
+FIRST TIME SETUP (run once):
 ------------------------------
+1. Open a Terminal in the extracted folder
+2. Make the scripts executable (one time only):
+     chmod +x SETUP.sh START.sh
+3. Run setup:
+     bash SETUP.sh
+   - Wait for "SETUP COMPLETE"
+
+LAUNCH THE APP (every time):
+------------------------------
+4. Run:
+     bash START.sh
+   - Your browser opens automatically
+   - Press Ctrl+C in the terminal to stop the app
+
+
+============================================
+  CONNECT YAHOO MAIL
+============================================
+- Go to Yahoo Account Security
+- Click "Generate app password"
+- Name it "Email Cleaner" then click Generate
+- Copy the 16-character code
+- In Email Cleaner > Settings > Add Yahoo Account
+- Paste the code and click Add
+
+
+============================================
+  CONNECT GMAIL
+============================================
 - See OAUTH_SETUP.md for full Gmail instructions
   (requires a free Google Cloud project)
 
-NEED HELP?
-------------------------------
-Full guide: https://github.com/onezmo65-code/email-cleaner
-Support: https://ko-fi.com/diskava
+
+============================================
+  NEED HELP?
+============================================
+Full guide : https://github.com/onezmo65-code/email-cleaner
+Support    : https://ko-fi.com/diskava
 
 ============================================
