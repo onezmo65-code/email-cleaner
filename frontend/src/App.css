@@ -403,3 +403,33 @@ label {
   border-radius: 50%;
   border: 3px solid rgba(0,0,0,0.1);
 }
+
+/* ── Update banner ───────────────────────────────────────────────────────── */
+.update-banner {
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+  padding: 0.45rem 1rem;
+  background: #166534;
+  color: #dcfce7;
+  font-size: 0.8rem;
+  font-weight: 500;
+  flex-wrap: wrap;
+}
+.update-banner a {
+  color: #86efac;
+  text-decoration: underline;
+  white-space: nowrap;
+}
+.update-banner a:hover { color: #ffffff; }
+.update-dismiss {
+  margin-left: auto;
+  background: none;
+  border: none;
+  color: #86efac;
+  cursor: pointer;
+  font-size: 0.85rem;
+  padding: 0 0.25rem;
+  line-height: 1;
+}
+.update-dismiss:hover { color: #ffffff; }
